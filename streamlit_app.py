@@ -80,17 +80,14 @@ if len(df_jug_todos) >= 2:
             delta_prom = ult['PROMEDIO'] - ant['PROMEDIO']
             mejora_texto = f"vs {ant['PERIODO']}"
 
-# --- METRICAS PRINCIPALES ---
+# --- METRICAS ---
 c1,c2,c3,c4 = st.columns(4)
 c1.metric("Periodo", periodo_sel)
 c2.metric("Puesto", f"{puesto} de {len(df_rank)}")
 c3.metric("Promedio", f"{ult['PROMEDIO']:.2f} / 5", delta=f"{delta_prom:+.2f} {mejora_texto}" if delta_prom!=0 else None)
 c4.metric("Periodos jugados", len(df_jug_todos))
 
-if ant is not None and delta_prom!=0:
-    st.info(f"**Mejora de {jugador}:** De {ant['PROMEDIO']:.2f} en {ant['PERIODO']} a {ult['PROMEDIO']:.2f} en {periodo_sel} = **{delta_prom:+.2f} puntos**")
-
-# --- NOTAS POR TECNICA (SOLO NUMEROS CON FLECHA) ---
+# --- NOTAS POR TECNICA ---
 st.divider()
 st.subheader("Notas por técnica")
 cols_top = st.columns(len(tecnicas))
@@ -118,13 +115,13 @@ fig2 = go.Figure(go.Scatterpolar(r=ult[tecnicas].values, theta=tecnicas, fill='t
 fig2.update_layout(polar=dict(radialaxis=dict(range=[0,5], dtick=1)), height=500)
 st.plotly_chart(fig2, use_container_width=True, key="telarana")
 
-# --- ESCALA ---
-with st.expander("📈 Ver escala de progreso"):
+# --- DICCIONARIO FINAL ---
+st.divider()
+with st.expander("📚 Ver DICCIONARIO - qué significa cada técnica (de la hoja gid=2071529339)", expanded=False):
     if not dic_df.empty:
         st.dataframe(dic_df, use_container_width=True)
     else:
-        st.write("Escala cargada desde gid=2071529339")
+        st.warning("No se pudo cargar el diccionario. Verifique que la hoja gid=2071529339 esté publicada.")
 
 if st.sidebar.button("Limpiar Cache"):
     st.cache_data.clear()
-    
