@@ -119,7 +119,7 @@ st.plotly_chart(fig2, use_container_width=True, key="telarana")
 st.divider()
 with st.expander("📊 Ver escala de progreso", expanded=False):
     if not dic_df.empty:
-        st.dataframe(dic_df, use_container_width=True)
+        st.dataframe(dic_df, use_container_width=True, hide_index=True)
     else:
         st.warning("No se pudo cargar el diccionario. Verifique que la hoja gid=2071529339 esté publicada.")
 
