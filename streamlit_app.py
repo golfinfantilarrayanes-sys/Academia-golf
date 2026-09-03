@@ -117,7 +117,7 @@ st.plotly_chart(fig2, use_container_width=True, key="telarana")
 
 # --- DICCIONARIO FINAL ---
 st.divider()
-with st.expander("📚 Ver DICCIONARIO - qué significa cada técnica (de la hoja gid=2071529339)", expanded=False):
+with st.expander("📊 Ver escala de progreso", expanded=False):
     if not dic_df.empty:
         st.dataframe(dic_df, use_container_width=True)
     else:
