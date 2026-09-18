@@ -99,14 +99,39 @@ for i, tec in enumerate(tecnicas):
     else:
         cols_top[i].metric(tec, f"{nota:.1f}" if pd.notna(nota) else "-")
 
-# --- GRAFICO EVOLUCION ---
+# --- GRAFICO EVOLUCION - AHORA EN BARRAS ---
 st.divider()
 st.subheader(f"Evolución de {jugador}")
+
 fig = go.Figure()
-fig.add_trace(go.Scatter(x=df_jug_todos['PERIODO'], y=df_jug_todos['PROMEDIO'], mode='lines+markers', name='PROMEDIO', line=dict(width=5, color='black'), marker=dict(size=12, symbol='star')))
+
 for tec in tecnicas:
-    fig.add_trace(go.Scatter(x=df_jug_todos['PERIODO'], y=df_jug_todos[tec], mode='lines+markers', name=tec))
-fig.update_layout(yaxis=dict(range=[0,5.5], dtick=1), height=450, hovermode="x unified")
+    fig.add_trace(go.Bar(
+        x=df_jug_todos['PERIODO'],
+        y=df_jug_todos[tec],
+        name=tec,
+        text=df_jug_todos[tec].round(1),
+        textposition='auto'
+    ))
+
+fig.add_trace(go.Bar(
+    x=df_jug_todos['PERIODO'],
+    y=df_jug_todos['PROMEDIO'],
+    name='PROMEDIO',
+    marker=dict(color='black'),
+    text=df_jug_todos['PROMEDIO'].round(2),
+    textposition='outside'
+))
+
+fig.update_layout(
+    barmode='group',
+    yaxis=dict(range=[0,5.8], dtick=1, title="Nota / 5"),
+    xaxis=dict(title="Periodo"),
+    height=500,
+    hovermode="x unified",
+    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+)
+
 st.plotly_chart(fig, use_container_width=True)
 
 # --- TELARAÑA ---
